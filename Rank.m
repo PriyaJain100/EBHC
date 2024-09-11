@@ -1,13 +1,13 @@
 % MATLAB Code to calculate the Rank required for the Extended Binary Hamming Code
 % Author:- Priya Jain
-A=[0 1 1 1 0 1 1 1;
-   1 0 1 1 1 1 1 0;
-   1 1 0 1 1 1 0 1;
-   1 1 1 0 1 0 1 1;
-   0 1 1 1 0 1 1 1;
-   1 1 1 0 1 0 1 1;
-   1 1 0 1 1 1 0 1;
-   1 0 1 1 1 1 1 0];
+A=[1 0 0 0 0 1 1 1;
+   0 1 0 0 1 1 1 0;
+   0 0 1 0 1 1 0 1;
+   0 0 0 1 1 0 1 1;
+   0 1 1 1 1 0 0 0;
+   1 1 1 0 0 1 0 0;
+   1 1 0 1 0 0 1 0;
+   1 0 1 1 0 0 0 1];
 % Perform Gaussian elimination mod 2
 [m, n] = size(A);
 for i = 1:min(m,n)
