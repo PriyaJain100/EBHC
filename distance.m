@@ -1,10 +1,10 @@
 % MATLAB Code to calculate the Hamming Distance required for the EBHC
 % Author:- Priya Jain
 
-codewords = [1 0 1 0 1 1 1 1;
-             0 1 0 1 1 1 1 1;
-             1 0 1 0 1 1 1 1;
-             0 1 0 1 1 1 1 1];
+codewords = [0 1 1 1 0 1 1 1;
+             1 0 1 1 1 1 1 0;
+             1 1 0 1 1 1 0 1;
+             1 1 1 0 1 0 1 1];
 % Number of codewords
 [num_codewords, n] = size(codewords);
 
