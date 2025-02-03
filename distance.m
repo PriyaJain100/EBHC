@@ -1,27 +1,28 @@
-% MATLAB Code to calculate the Hamming Distance required for the EBHC
-% Author:- Priya Jain
+% MATLAB Code to calculate the minimum Hamming Distance for a code C
+% Author: Priya Jain
 
 codewords = [0 1 1 1 0 1 1 1;
              1 0 1 1 1 1 1 0;
              1 1 0 1 1 1 0 1;
-             1 1 1 0 1 0 1 1;
-             0 1 1 1 0 1 1 1;
-             1 1 1 0 1 0 1 1;
-             1 1 0 1 1 1 0 1;
-             1 0 1 1 1 1 1 0];
+             1 1 1 0 1 0 1 1];
+
 % Number of codewords
-[num_codewords, n] = size(codewords);
+[num_code, n] = size(codewords);
 
-% Initialize the minimum Hamming distance to a large number
-min_hamming_distance = n;
+% Generate all possible linear combinations of codewords
+num_combine = 2^num_code - 1; % Exclude the all-zero vector
+min_hamming_distance = n; % Initialize minimum Hamming distance
 
-% Calculate the Hamming distance between all pairs of codewords
-for i = 1:num_codewords-1
-    for j = i+1:num_codewords
-        % Calculate the Hamming distance between codeword i and codeword j
-        hamming_distance = sum(codewords(i,:) ~= codewords(j,:));
+% Loop over all nonzero binary vectors
+for combinaton = 1:num_combine
+    binary_vector = dec2bin(combinaton, num_code) - '0'; % Convert to binary vector
+    linear_combination = mod(binary_vector * codewords, 2); % Compute linear combination mod 2
+    
+    % Exclude the all-zero codeword
+    if any(linear_combination)
+        hamming_distance = sum(linear_combination);
         
-        % Update the minimum Hamming distance
+        % Update minimum Hamming distance
         if hamming_distance < min_hamming_distance
             min_hamming_distance = hamming_distance;
         end
