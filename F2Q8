@@ -1,1 +1,75 @@
+from itertools import product
 
+def gf2_row_reduce(mat):
+    A = [row[:] for row in mat]
+    n = len(A)
+    m = len(A[0])
+    r = 0
+
+    for c in range(m):
+        pivot = None
+        for i in range(r, n):
+            if A[i][c] % 2 == 1:
+                pivot = i
+                break
+        if pivot is None:
+            continue
+
+        A[r], A[pivot] = A[pivot], A[r]
+
+        for i in range(n):
+            if i != r and A[i][c] % 2 == 1:
+                for j in range(c, m):
+                    A[i][j] ^= A[r][j]
+        r += 1
+        if r == n:
+            break
+
+    return A
+
+def rank_mod2(mat):
+    A = gf2_row_reduce(mat)
+    rank = 0
+    for row in A:
+        if any(x % 2 for x in row):
+            rank += 1
+    return rank
+
+def hamming_weight(v):
+    return sum(v)
+
+def vec_mul_msg_G(msg, G):
+    k = len(msg)
+    n = len(G[0])
+    codeword = [0] * n
+    for i in range(k):
+        if msg[i] == 1:
+            for j in range(n):
+                codeword[j] ^= G[i][j]
+    return codeword
+
+def minimum_hamming_distance(G):
+    k = len(G)
+    n = len(G[0])
+
+    dmin = n + 1
+    for msg in product([0, 1], repeat=k):
+        if all(x == 0 for x in msg):
+            continue
+        cw = vec_mul_msg_G(msg, G)
+        wt = hamming_weight(cw)
+        if wt != 0 and wt < dmin:
+            dmin = wt
+
+    return None if dmin == n + 1 else dmin
+
+# Enter your 8x8 generator matrix over F2 here
+G = [
+    [0,0,0,1,1,0,1,1],
+    [1,0,0,0,0,1,1,1],
+    [0,1,0,0,1,1,1,0],
+    [0,0,1,0,1,1,0,1],
+]
+
+print("Rank =", rank_mod2(G))
+print("Minimum Hamming distance =", minimum_hamming_distance(G))
